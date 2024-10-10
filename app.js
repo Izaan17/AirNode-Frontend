@@ -77,7 +77,7 @@ function handleFileSelection() {
         updateFileNameEntry(file);
         previewFile(file);
         elements.removeFileButton.removeAttribute('disabled');
-        elements.removeFileButton.style.display = 'block';
+        elements.removeFileButton.style.display = 'inline';
     } else {
         resetFileNameInfo();
     }

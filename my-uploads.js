@@ -42,6 +42,9 @@ function updateFileList(files) {
         const fileLink = document.createElement('a');
         const deleteButton = document.createElement('button');
 
+        // Set list item styling
+        listItem.setAttribute('style', 'margin: 20px 0px');
+
         // Set file link attributes
         fileLink.href = `${API_URL}/download/${file}`;
         fileLink.download = file;
@@ -51,6 +54,7 @@ function updateFileList(files) {
         // Set delete button attributes and event
         deleteButton.textContent = 'Delete';
         deleteButton.setAttribute('aria-label', `Delete ${file}`);
+        deleteButton.setAttribute('style', 'margin-left: 20px; background-color: rgb(220, 61, 61);');
         deleteButton.addEventListener('click', () =>
             { 
                 deleteFile(file);
