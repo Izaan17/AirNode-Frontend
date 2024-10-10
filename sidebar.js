@@ -12,6 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
                     item.classList.add('is-active');
                 }
             });
+
+            // Add event listener to toggle sidebar visibility
+            const menuToggle = document.querySelector('.menu-toggle');
+            const sidebar = document.querySelector('.sidebar');
+            menuToggle.addEventListener('click', () => {
+                menuToggle.classList.toggle('is-active');
+                sidebar.classList.toggle('is-active');
+            });
         })
         .catch(error => console.error('Error loading sidebar:', error));
 });

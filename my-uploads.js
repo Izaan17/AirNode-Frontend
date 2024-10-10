@@ -31,7 +31,7 @@ function updateFileList(files) {
 
     // Check if 'files' is a valid array
     if (!Array.isArray(files) || files.length === 0) {
-        elements.fileList.innerHTML = '<li>No files available</li>';
+        elements.fileList.innerHTML = '<li style="margin-top: 20px;">No files available</li>';
         return;
     }
 
