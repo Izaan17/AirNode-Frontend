@@ -34,7 +34,7 @@ async function handleUpload() {
 
     try {
         const result = await airService.uploadFile(newFile, updateProgressBar, UPLOAD_TIMEOUT);
-        notifier.notify('Upload successful: ' + result, notifier.success);
+        notifier.notify('Upload successful: ' + result.message, notifier.success);
     } catch (error) {
         if (error.message === 'Upload timed out') {
             notifier.notify('Upload timed out. Please try again or check your connection.', 'error');
