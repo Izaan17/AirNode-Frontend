@@ -44,11 +44,13 @@ function updateFileList(files) {
 }
 
 function createFileItem(file) {
-    // Create list item, container, file link, and delete button elements
+    // Create list item, container, file link, download button, delete button, and button container
     const listItem = document.createElement('li');
     const itemContainer = document.createElement('div');
     const fileLink = document.createElement('a');
+    const downloadButton = document.createElement('button');
     const deleteButton = document.createElement('button');
+    const buttonContainer = document.createElement('div'); // New container for buttons
 
     // Set list item and container styling
     listItem.setAttribute('style', 'margin: 15px 0; list-style-type: none;');
@@ -61,18 +63,40 @@ function createFileItem(file) {
     fileLink.setAttribute('aria-label', `Download ${file}`);
     fileLink.setAttribute('style', 'text-decoration: none; color: #333; font-weight: bold;');
 
-    // Set delete button attributes and styling
+    // Set download button attributes
+    downloadButton.textContent = 'Download';
+    downloadButton.setAttribute('aria-label', `Download ${file}`);
+    downloadButton.classList.add('download-button'); // Add CSS class
+    downloadButton.onclick = function() {
+        download(file);
+    };
+
+    // Set delete button attributes
     deleteButton.textContent = 'Delete';
     deleteButton.setAttribute('aria-label', `Delete ${file}`);
-    deleteButton.setAttribute('style', 'background-color: rgb(220, 61, 61); color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;');
+    deleteButton.classList.add('delete-button'); // Add CSS class
     deleteButton.addEventListener('click', () => { deleteFile(file, listItem); });
+
+    // Append download and delete buttons to the button container
+    buttonContainer.appendChild(downloadButton);
+    buttonContainer.appendChild(deleteButton);
+    buttonContainer.setAttribute('style', 'display: flex; gap: 10px;'); // Align buttons next to each other
 
     // Append elements to the container and list item
     itemContainer.appendChild(fileLink);
-    itemContainer.appendChild(deleteButton);
+    itemContainer.appendChild(buttonContainer); // Add button container to item container
     listItem.appendChild(itemContainer);
 
     return listItem;
+}
+
+async function download(filename) {
+    try {
+        const result = await airService.download(filename);
+        notifier.notify(`Successfully downloaded '${filename}'`, notifier.success);
+    } catch (error) {
+        notifier.notify('An error occurred:' + error.message, notifier.error);
+    }
 }
 
 async function deleteFile(filename, listItem) {

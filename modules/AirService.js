@@ -92,4 +92,36 @@ export class AirService {
             throw error;
         }
     }
+
+    async download(filename, timeout = this.defaultTimeout) {
+        const controller = new AbortController();
+        const id = setTimeout(() => controller.abort(), timeout);
+    
+        try {
+            const response = await fetch(`${this.baseURL}/download/${filename}`, {
+                method: 'GET',
+                signal: controller.signal
+            });
+            clearTimeout(id);
+    
+            if (!response.ok) {
+                throw new Error('Failed to download file: ' + response.statusText);
+            }
+    
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            if (error.name === 'AbortError') {
+                throw new Error('Downloading file timed out');
+            }
+            throw error;
+        }
+    }
 }
