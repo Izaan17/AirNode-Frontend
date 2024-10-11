@@ -328,12 +328,12 @@ input[type="file"] {
   cursor: pointer;
 }
 
-.prompt-frame button:first-of-type {
+.prompt-frame button:last-of-type {
   background-color: #4caf50;
   color: white;
 }
 
-.prompt-frame button:last-of-type {
+.prompt-frame button:first-of-type {
   background-color: #f44336;
   color: white;
 }

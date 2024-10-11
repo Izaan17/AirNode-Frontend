@@ -38,33 +38,41 @@ function updateFileList(files) {
     // Populate file list with new entries
     files.forEach(file => {
         // Create list item and file link elements
-        const listItem = document.createElement('li');
-        const fileLink = document.createElement('a');
-        const deleteButton = document.createElement('button');
-
-        // Set list item styling
-        listItem.setAttribute('style', 'margin: 20px 0px');
-
-        // Set file link attributes
-        fileLink.href = `${API_URL}/download/${file}`;
-        fileLink.download = file;
-        fileLink.textContent = file;
-        fileLink.setAttribute('aria-label', `Download ${file}`);
-
-        // Set delete button attributes and event
-        deleteButton.textContent = 'Delete';
-        deleteButton.setAttribute('aria-label', `Delete ${file}`);
-        deleteButton.setAttribute('style', 'margin-left: 20px; background-color: rgb(220, 61, 61);');
-        deleteButton.addEventListener('click', () =>
-            { 
-                deleteFile(file, listItem);
-            });
-
-        // Append elements to list item and list
-        listItem.appendChild(fileLink);
-        listItem.appendChild(deleteButton);
+        const listItem = createFileItem(file);
         elements.fileList.appendChild(listItem);
     });
+}
+
+function createFileItem(file) {
+    // Create list item, container, file link, and delete button elements
+    const listItem = document.createElement('li');
+    const itemContainer = document.createElement('div');
+    const fileLink = document.createElement('a');
+    const deleteButton = document.createElement('button');
+
+    // Set list item and container styling
+    listItem.setAttribute('style', 'margin: 15px 0; list-style-type: none;');
+    itemContainer.setAttribute('style', 'display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;');
+
+    // Set file link attributes and styling
+    fileLink.href = `${API_URL}/download/${file}`;
+    fileLink.download = file;
+    fileLink.textContent = file;
+    fileLink.setAttribute('aria-label', `Download ${file}`);
+    fileLink.setAttribute('style', 'text-decoration: none; color: #333; font-weight: bold;');
+
+    // Set delete button attributes and styling
+    deleteButton.textContent = 'Delete';
+    deleteButton.setAttribute('aria-label', `Delete ${file}`);
+    deleteButton.setAttribute('style', 'background-color: rgb(220, 61, 61); color: #fff; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;');
+    deleteButton.addEventListener('click', () => { deleteFile(file, listItem); });
+
+    // Append elements to the container and list item
+    itemContainer.appendChild(fileLink);
+    itemContainer.appendChild(deleteButton);
+    listItem.appendChild(itemContainer);
+
+    return listItem;
 }
 
 async function deleteFile(filename, listItem) {
@@ -106,8 +114,8 @@ function askPrompt(title, prompt) {
     // Append elements to prompt frame
     promptFrame.appendChild(titleText);
     promptFrame.appendChild(promptText);
-    promptFrame.appendChild(confirmButton);
     promptFrame.appendChild(cancelButton);
+    promptFrame.appendChild(confirmButton);
 
     // Set up classes for styling
     promptFrame.classList.add('prompt-frame');
