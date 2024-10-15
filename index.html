@@ -26,19 +26,11 @@
             <div id="progress-container" class="progress-container" style="display: none;">
                 <div id="progress-bar" class="progress-bar"></div>
             </div>
-            <div id="file-name-label" class="file-name-label">No file currently uploaded</div>
-            <div id="preview-container">
-                <img id="image-preview" class="image-preview" style="display: none;">
-                <iframe id="pdf-preview" class="pdf-preview" style="display: none;"></iframe>
-                <pre id="text-preview" class="text-preview" style="display: none;"></pre>
-                <video id="video-preview" class="video-preview" controls style="display: none;"></video>
-            </div>
+            <div id="file-upload-item-container"></div>
+            <br>
             <label for="file-input" class="custom-file-upload">Select File</label>
-            <input type="file" id="file-input">
-            <input type="text" id="file-name-entry" class="file-name-entry" placeholder="Enter file name (optional)"
-                readonly>
+            <input type="file" id="file-input" multiple>
             <button id="upload-button">Upload</button>
-            <button id="clear-file-button" class="danger-button" style="display: none;" disabled> Remove</button>
         </main>
     </div>
 

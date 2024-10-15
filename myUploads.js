@@ -100,7 +100,7 @@ async function download(filename) {
 }
 
 async function deleteFile(filename, listItem) {
-    const response = await askPrompt('Delete File', `Are you sure you want to delete '${filename}'?`);
+    const response = await askConfirmation('Delete File', `Are you sure you want to delete '${filename}'?`);
 
     // If the user canceled, stop here
     if (!response) {
@@ -121,7 +121,7 @@ async function deleteFile(filename, listItem) {
     }
 }
 
-function askPrompt(title, prompt) {
+function askConfirmation(title, prompt) {
     const promptFrame = document.createElement('div');
     const overlay = document.createElement('div');
     const titleText = document.createElement('h4');
