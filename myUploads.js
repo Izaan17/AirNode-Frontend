@@ -74,7 +74,7 @@ function createFileItem(file) {
 
     // Set delete button attributes
     deleteButton.textContent = 'Delete';
-    deleteButton.setAttribute('aria-label', `Delete ${file}`);
+    deleteButton.setAttribute('aria-label', `Delete ${encodedFilename}`);
     deleteButton.classList.add('delete-button'); // Add CSS class
     deleteButton.addEventListener('click', () => { deleteFile(file, listItem); });
 
@@ -101,6 +101,7 @@ async function download(filename) {
 }
 
 async function deleteFile(filename, listItem) {
+    const encodedFilename = encodeURIComponent(filename);
     const response = await askConfirmation('Delete File', `Are you sure you want to delete '${filename}'?`);
 
     // If the user canceled, stop here
@@ -110,7 +111,7 @@ async function deleteFile(filename, listItem) {
 
     try {
         // Proceed with deletion if user confirmed
-        const result = await airService.deleteFile(filename, DELETE_TIMEOUT);
+        const result = await airService.deleteFile(encodedFilename, DELETE_TIMEOUT);
         listItem.remove();
         notifier.notify(result.message, 'success');
     } catch (error) {
