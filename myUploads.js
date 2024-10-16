@@ -57,9 +57,9 @@ function createFileItem(file) {
     itemContainer.setAttribute('style', 'display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;');
 
     // Set file link attributes and styling
-    const encodedFilename = encodeURIComponent(file); // Encode filename to prevent errors when downloading files with special characters
+    const encodedFilename = encodeURIComponent(file);
     fileLink.href = `${API_URL}/download/${encodedFilename}`;
-    fileLink.download = encodedFilename;
+    fileLink.download = file; // Use original filename for download attribute
     fileLink.textContent = file;
     fileLink.setAttribute('aria-label', `Download ${file}`);
     fileLink.setAttribute('style', 'text-decoration: none; color: #333; font-weight: bold;');
@@ -74,7 +74,7 @@ function createFileItem(file) {
 
     // Set delete button attributes
     deleteButton.textContent = 'Delete';
-    deleteButton.setAttribute('aria-label', `Delete ${encodedFilename}`);
+    deleteButton.setAttribute('aria-label', `Delete ${file}`);
     deleteButton.classList.add('delete-button'); // Add CSS class
     deleteButton.addEventListener('click', () => { deleteFile(file, listItem); });
 
@@ -101,7 +101,6 @@ async function download(filename) {
 }
 
 async function deleteFile(filename, listItem) {
-    const encodedFilename = encodeURIComponent(filename);
     const response = await askConfirmation('Delete File', `Are you sure you want to delete '${filename}'?`);
 
     // If the user canceled, stop here
@@ -111,7 +110,7 @@ async function deleteFile(filename, listItem) {
 
     try {
         // Proceed with deletion if user confirmed
-        const result = await airService.deleteFile(encodedFilename, DELETE_TIMEOUT);
+        const result = await airService.deleteFile(filename, DELETE_TIMEOUT);
         listItem.remove();
         notifier.notify(result.message, 'success');
     } catch (error) {

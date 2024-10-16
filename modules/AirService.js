@@ -75,7 +75,8 @@ export class AirService {
         const id = setTimeout(() => controller.abort(), timeout);
 
         try {
-            const response = await fetch(`${this.baseURL}/delete/${filename}`, {
+            const encodedFilename = encodeURIComponent(filename);
+            const response = await fetch(`${this.baseURL}/delete/${encodedFilename}`, {
                 method: 'DELETE',
                 signal: controller.signal
             });
@@ -98,7 +99,8 @@ export class AirService {
         const id = setTimeout(() => controller.abort(), timeout);
     
         try {
-            const response = await fetch(`${this.baseURL}/download/${filename}`, {
+            const encodedFilename = encodeURIComponent(filename);
+            const response = await fetch(`${this.baseURL}/download/${encodedFilename}`, {
                 method: 'GET',
                 signal: controller.signal
             });
@@ -112,7 +114,7 @@ export class AirService {
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = filename;
+            a.download = filename;  // Use original filename for download
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
