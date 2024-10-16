@@ -57,8 +57,9 @@ function createFileItem(file) {
     itemContainer.setAttribute('style', 'display: flex; align-items: center; justify-content: space-between; padding: 10px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;');
 
     // Set file link attributes and styling
-    fileLink.href = `${API_URL}/download/${file}`;
-    fileLink.download = file;
+    const encodedFilename = encodeURIComponent(file); // Encode filename to prevent errors when downloading files with special characters
+    fileLink.href = `${API_URL}/download/${encodedFilename}`;
+    fileLink.download = encodedFilename;
     fileLink.textContent = file;
     fileLink.setAttribute('aria-label', `Download ${file}`);
     fileLink.setAttribute('style', 'text-decoration: none; color: #333; font-weight: bold;');
